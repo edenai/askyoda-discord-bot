@@ -2,7 +2,7 @@ import requests
 from decouple import config
 
 
-url = "https://api.edenai.run/v2/aiproducts/askyoda/"
+url = "https://api.edenai.run/v2/aiproducts/askyoda/v2/"
 
 
 headers = {
@@ -93,15 +93,17 @@ class Askyoda:
             print(question)
             """Ask Language Learning Model (LLM). Returns an answer from LLM"""
             payload = {
-                "query": question
-                ,
-                "llm_provider": "mistral",
-                "llm_model": "small",
+                "query": question,
+                "llm_provider": "openai",
+                "llm_model": "gpt-4",
                 "k": 5,
+                "chatbot_global_action": "You are an assisstant from Eden AI who have in charge the support. You will have only one chance to answer so make the most precise the answer. If you don't know just answer me 'I dont' know' "
+
             }
             response = requests.post(
                 self.url + "/ask_llm", json=payload, headers=headers
             )
+            print(payload)
             print(f"Response from LLM:\n{response}")
             if response.status_code == 200:
                 print(response.json())
